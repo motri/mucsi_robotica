@@ -1,0 +1,76 @@
+services:
+  desktop_novnc:
+    image: mucsi_desktop_novnc
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile_novnc
+    privileged: true
+    volumes:
+      - ./ros_workspace:/home/laboratorio/ros_workspace
+    profiles:
+      - desktop
+    tmpfs:
+      - /dev/shm:rw
+    ports:
+      - 6081:6081
+      - 5901:5901
+    environment:
+      - TZ=UTC
+      - SIZEW=1920
+      - SIZEH=1080
+      - REFRESH=60
+      - DPI=96
+      - CDEPTH=24
+      - WEBRTC_ENCODER=nvh264enc
+      - NOVNC_ENABLE=true
+      - RESOLUTION=1920x1080x24
+      - NOVNC_PORT=6081
+      - VNC_PORT=5901
+  local_laboratorio_gpu:
+    image: mucsi_local_laboratorio_gpu
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile_local_x
+    privileged: true
+    network_mode: host
+    ipc: host
+    profiles:
+      - local_gpu
+    volumes:
+      - ./ros_workspace:/home/laboratorio/ros_workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XAUTHORITY:-0}:/root/.Xauthority
+      - /dev:/dev
+    tmpfs:
+      - /dev/shm:rw
+    environment:
+      - DISPLAY=$DISPLAY
+      - LD_LIBRARY_PATH=/usr/local/nvidia/lib64
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  local_laboratorio:
+    image: mucsi_local_laboratorio
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile_local_x
+    privileged: true
+    network_mode: host
+    ipc: host
+    profiles:
+      - local
+    volumes:
+      - ./ros_workspace:/home/laboratorio/ros_workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XAUTHORITY:-0}:/root/.Xauthority
+      - /dev:/dev
+    tmpfs:
+      - /dev/shm:rw
+    environment:
+      - DISPLAY=$DISPLAY

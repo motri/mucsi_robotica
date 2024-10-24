@@ -1,0 +1,36 @@
+FROM ros:noetic
+
+RUN apt update && apt install -y rviz \
+         ros-noetic-moveit \
+         curl \
+         apt-utils \
+         python3-pip \
+         python-is-python3 \
+         net-tools \
+         nmap \
+         xauth \
+         ros-noetic-robot-state-publisher \
+         ros-noetic-joint-state-publisher \
+         git \
+         ros-noetic-usb-cam \
+         htop \
+         sudo \
+         libxmlrpc-core-c3-dev
+
+RUN pip install catkin_tools \
+                tensorboard \
+                ur_rtde
+
+RUN rm -rf /var/lib/apt/lists/* && \
+    groupadd -g 1000 laboratorio && \
+    useradd -ms /bin/bash laboratorio -u 1000 -g 1000 && \
+    echo "laboratorio ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    echo "source /opt/ros/noetic/setup.bash" >> /home/laboratorio/.bashrc && \
+    RUN echo 'laboratorio:laboratorio' | chpasswd && \
+    chown laboratorio:laboratorio /home/laboratorio && \
+    mkdir -p /var/run/laboratorio/1000 && \
+    chown laboratorio:laboratorio /var/run/laboratorio/1000
+
+USER laboratorio
+
+ENTRYPOINT [ "sleep", "infinity"]

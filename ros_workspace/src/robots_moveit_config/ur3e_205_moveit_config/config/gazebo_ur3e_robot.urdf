@@ -1,0 +1,570 @@
+<?xml version="1.0" ?>
+<robot name="ur3e_robot">
+    <!-- links: main serial chain -->
+    <link name="base_link" />
+    <link name="base_link_inertia">
+        <visual>
+            <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/base.dae" />
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/base.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="2.0" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0.0030531654454" ixy="0.0" ixz="0.0" iyy="0.0030531654454" iyz="0.0" izz="0.005625" />
+        </inertial>
+    </link>
+    <link name="shoulder_link">
+        <visual>
+            <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/shoulder.dae" />
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/shoulder.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="2.0" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0.008093163429399999" ixy="0.0" ixz="0.0" iyy="0.008093163429399999" iyz="0.0" izz="0.005625" />
+        </inertial>
+    </link>
+    <link name="upper_arm_link">
+        <visual>
+            <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.12" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/upperarm.dae" />
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.12" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/upperarm.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="3.42" />
+            <origin rpy="0 1.5707963267948966 0" xyz="-0.121825 0.0 0.12" />
+            <inertia ixx="0.021728483221103233" ixy="0.0" ixz="0.0" iyy="0.021728483221103233" iyz="0.0" izz="0.00961875" />
+        </inertial>
+    </link>
+    <link name="forearm_link">
+        <visual>
+            <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.027" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/forearm.dae" />
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.027" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/forearm.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="1.26" />
+            <origin rpy="0 1.5707963267948966 0" xyz="-0.1066 0.0 0.027" />
+            <inertia ixx="0.0065445675821719194" ixy="0.0" ixz="0.0" iyy="0.0065445675821719194" iyz="0.0" izz="0.00354375" />
+        </inertial>
+    </link>
+    <link name="wrist_1_link">
+        <visual>
+            <!-- TODO: Move this to a parameter -->
+            <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.104" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/wrist1.dae" />
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.104" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/wrist1.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.8" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0.002084999166" ixy="0.0" ixz="0.0" iyy="0.002084999166" iyz="0.0" izz="0.00225" />
+        </inertial>
+    </link>
+    <link name="wrist_2_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 -0.08535" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/wrist2.dae" />
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 -0.08535" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/wrist2.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.8" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0.002084999166" ixy="0.0" ixz="0.0" iyy="0.002084999166" iyz="0.0" izz="0.00225" />
+        </inertial>
+    </link>
+    <link name="wrist_3_link">
+        <visual>
+            <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.0921" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/wrist3.dae" />
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.0921" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/wrist3.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.35" />
+            <origin rpy="0 0 0" xyz="0.0 0.0 -0.02" />
+            <inertia ixx="0.00013626661215999998" ixy="0.0" ixz="0.0" iyy="0.00013626661215999998" iyz="0.0" izz="0.0001792" />
+        </inertial>
+    </link>
+    <!-- joints: main serial chain -->
+    <joint name="base_link-base_link_inertia" type="fixed">
+        <parent link="base_link" />
+        <child link="base_link_inertia" />
+        <!-- 'base_link' is REP-103 aligned (so X+ forward), while the internal
+           frames of the robot/controller have X+ pointing backwards.
+           Use the joint between 'base_link' and 'base_link_inertia' (a dummy
+           link/frame) to introduce the necessary rotation over Z (of pi rad).
+      -->
+        <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+    </joint>
+    <joint name="shoulder_pan_joint" type="revolute">
+        <parent link="base_link_inertia" />
+        <child link="shoulder_link" />
+        <origin rpy="0 0 -1.218598534562937e-07" xyz="0 0 0.1519932046329507" />
+        <axis xyz="0 0 1" />
+        <limit effort="56.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+        <dynamics damping="0" friction="0" />
+    </joint>
+    <joint name="shoulder_lift_joint" type="revolute">
+        <parent link="shoulder_link" />
+        <child link="upper_arm_link" />
+        <origin rpy="1.571184054925294 0 3.46931133972767e-07" xyz="-0.000133574490397829 0 0" />
+        <axis xyz="0 0 1" />
+        <limit effort="56.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+        <dynamics damping="0" friction="0" />
+    </joint>
+    <joint name="elbow_joint" type="revolute">
+        <parent link="upper_arm_link" />
+        <child link="forearm_link" />
+        <origin rpy="3.141429134391114 3.1413007534876 3.141585104530758" xyz="-0.2436650957547605 0 0" />
+        <axis xyz="0 0 1" />
+        <limit effort="28.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="3.141592653589793" />
+        <dynamics damping="0" friction="0" />
+    </joint>
+    <joint name="wrist_1_joint" type="revolute">
+        <parent link="forearm_link" />
+        <child link="wrist_1_link" />
+        <origin rpy="0.00536252025231981 0.0008389012176466991 6.286415122585481e-06" xyz="-0.2131937361714605 -0.0007020488731425266 0.1309164554311118" />
+        <axis xyz="0 0 1" />
+        <limit effort="12.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="6.283185307179586" />
+        <dynamics damping="0" friction="0" />
+    </joint>
+    <joint name="wrist_2_joint" type="revolute">
+        <parent link="wrist_1_link" />
+        <child link="wrist_2_link" />
+        <origin rpy="1.571621169361338 0 -1.170707376603464e-06" xyz="8.773921560453022e-06 -0.08546373128392754 -7.049413943712751e-05" />
+        <axis xyz="0 0 1" />
+        <limit effort="12.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="6.283185307179586" />
+        <dynamics damping="0" friction="0" />
+    </joint>
+    <joint name="wrist_3_joint" type="revolute">
+        <parent link="wrist_2_link" />
+        <child link="wrist_3_link" />
+        <origin rpy="1.569269301778692 3.141592653589793 -3.141592499182456" xyz="-0.0001118912945880604 0.09206143807114163 -0.0001405802282309842" />
+        <axis xyz="0 0 1" />
+        <limit effort="12.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="6.283185307179586" />
+        <dynamics damping="0" friction="0" />
+    </joint>
+    <!-- ROS-Industrial 'base' frame: base_link to UR 'Base' Coordinates transform -->
+    <link name="base" />
+    <joint name="base_link-base_fixed_joint" type="fixed">
+        <!-- Note the rotation over Z of pi radians: as base_link is REP-103
+           aligned (ie: has X+ forward, Y+ left and Z+ up), this is needed
+           to correctly align 'base' with the 'Base' coordinate system of
+           the UR controller.
+      -->
+        <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+        <parent link="base_link" />
+        <child link="base" />
+    </joint>
+    <joint name="wrist_3-tool0" type="fixed">
+        <parent link="wrist_3_link" />
+        <child link="tool0" />
+        <origin rpy="0 -1.5707963267948966 -1.5707963267948966" xyz="0 0 0" />
+    </joint>
+    <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
+    <link name="tool0" />
+    <joint name="joint0" type="fixed">
+        <parent link="tool0" />
+        <child link="onrobot_rg2_base_link" />
+        <origin rpy="0.0 1.5707963267948966 0.0" xyz="0. 0. 0." />
+    </joint>
+    <link name="onrobot_rg2_base_link">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.7" />
+            <inertia ixx="1.0E-03" ixy="1.0E-06" ixz="1.0E-06" iyy="1.0E-03" iyz="1.0E-06" izz="1.0E-03" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/base_link.stl" />
+            </geometry>
+            <material name="rg2_grey">
+                <color rgba="0.8 0.8 0.8 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/base_link.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="left_outer_knuckle">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.05" />
+            <inertia ixx="1.0E-03" ixy="1.0E-06" ixz="1.0E-06" iyy="1.0E-03" iyz="1.0E-06" izz="1.0E-03" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/outer_knuckle.stl" />
+            </geometry>
+            <material name="rg2_grey">
+                <color rgba="0.8 0.8 0.8 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/outer_knuckle.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="left_inner_knuckle">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.05" />
+            <inertia ixx="1.0E-03" ixy="1.0E-06" ixz="1.0E-06" iyy="1.0E-03" iyz="1.0E-06" izz="1.0E-03" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/inner_knuckle.stl" />
+            </geometry>
+            <material name="rg2_grey">
+                <color rgba="0.8 0.8 0.8 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/inner_knuckle.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="left_inner_finger">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.05" />
+            <inertia ixx="1.0E-03" ixy="1.0E-06" ixz="1.0E-06" iyy="1.0E-03" iyz="1.0E-06" izz="1.0E-03" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/inner_finger.stl" />
+            </geometry>
+            <material name="rg2_black">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/inner_finger.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="right_outer_knuckle">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.05" />
+            <inertia ixx="1.0E-03" ixy="1.0E-06" ixz="1.0E-06" iyy="1.0E-03" iyz="1.0E-06" izz="1.0E-03" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/outer_knuckle.stl" />
+            </geometry>
+            <material name="rg2_grey">
+                <color rgba="0.8 0.8 0.8 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/outer_knuckle.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="right_inner_knuckle">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.05" />
+            <inertia ixx="1.0E-03" ixy="1.0E-06" ixz="1.0E-06" iyy="1.0E-03" iyz="1.0E-06" izz="1.0E-03" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/inner_knuckle.stl" />
+            </geometry>
+            <material name="rg2_grey">
+                <color rgba="0.8 0.8 0.8 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/inner_knuckle.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="right_inner_finger">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.05" />
+            <inertia ixx="1.0E-03" ixy="1.0E-06" ixz="1.0E-06" iyy="1.0E-03" iyz="1.0E-06" izz="1.0E-03" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/visual/inner_finger.stl" />
+            </geometry>
+            <material name="rg2_black">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://launcher_robots_lab_robotica/meshes/collision/inner_finger.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="finger_joint" type="revolute">
+        <origin rpy="0 0 0" xyz="0 -0.017178 0.125797" />
+        <parent link="onrobot_rg2_base_link" />
+        <child link="left_outer_knuckle" />
+        <axis xyz="-1 0 0" />
+        <limit effort="1000" lower="-0.558505" upper="0.785398" velocity="100.0" />
+    </joint>
+    <joint name="left_inner_knuckle_joint" type="revolute">
+        <origin rpy="0 0 0.0" xyz="0 -0.007678 0.1422970" />
+        <parent link="onrobot_rg2_base_link" />
+        <child link="left_inner_knuckle" />
+        <axis xyz="1 0 0" />
+        <limit effort="1000" lower="-0.785398" upper="0.785398" velocity="100.0" />
+        <mimic joint="finger_joint" multiplier="-1" offset="0" />
+    </joint>
+    <joint name="left_inner_finger_joint" type="revolute">
+        <origin rpy="0 0 0" xyz="0 -0.039592 0.038177000000000016" />
+        <parent link="left_outer_knuckle" />
+        <child link="left_inner_finger" />
+        <axis xyz="1 0 0" />
+        <limit effort="1000" lower="-0.872665" upper="0.872665" velocity="100.0" />
+        <mimic joint="finger_joint" multiplier="1" offset="0" />
+    </joint>
+    <joint name="right_outer_knuckle_joint" type="revolute">
+        <origin rpy="0 0 3.141592653589793" xyz="0 0.017178 0.125797" />
+        <parent link="onrobot_rg2_base_link" />
+        <child link="right_outer_knuckle" />
+        <axis xyz="1 0 0" />
+        <limit effort="1000" lower="-0.785398" upper="0.785398" velocity="100.0" />
+        <mimic joint="finger_joint" multiplier="-1" offset="0" />
+    </joint>
+    <joint name="right_inner_knuckle_joint" type="revolute">
+        <origin rpy="0 0 -3.141592653589793" xyz="0 0.007678 0.1422970" />
+        <parent link="onrobot_rg2_base_link" />
+        <child link="right_inner_knuckle" />
+        <axis xyz="1 0 0" />
+        <limit effort="1000" lower="-0.785398" upper="0.785398" velocity="100.0" />
+        <mimic joint="finger_joint" multiplier="-1" offset="0" />
+    </joint>
+    <joint name="right_inner_finger_joint" type="revolute">
+        <origin rpy="0 0 0" xyz="0 -0.039592 0.038177000000000016" />
+        <parent link="right_outer_knuckle" />
+        <child link="right_inner_finger" />
+        <axis xyz="1 0 0" />
+        <limit effort="1000" lower="-0.872665" upper="0.872665" velocity="100.0" />
+        <mimic joint="finger_joint" multiplier="1" offset="0" />
+    </joint>
+    <transmission name="trans_shoulder_pan_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="shoulder_pan_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="shoulder_pan_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_shoulder_lift_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="shoulder_lift_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="shoulder_lift_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_elbow_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="elbow_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="elbow_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_wrist_1_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wrist_1_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="wrist_1_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_wrist_2_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wrist_2_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="wrist_2_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_wrist_3_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wrist_3_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="wrist_3_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_finger_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="finger_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="finger_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_left_inner_knuckle_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_inner_knuckle_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_inner_knuckle_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_left_inner_finger_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_inner_finger_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_inner_finger_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_right_outer_knuckle_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_outer_knuckle_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_outer_knuckle_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_right_inner_knuckle_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_inner_knuckle_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_inner_knuckle_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_right_inner_finger_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_inner_finger_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_inner_finger_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <gazebo>
+        <plugin name="gazebo_ros_control">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+</robot>
+

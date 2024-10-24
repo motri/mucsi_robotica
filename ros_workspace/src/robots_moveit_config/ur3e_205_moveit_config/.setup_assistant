@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: launcher_robots_lab_robotica
+    relative_path: urdf/ur3e_rg2_205.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/ur3e_robot.srdf
+  CONFIG:
+    author_name: Ignacio Fidalgo
+    author_email: ignacio.fidalgo@deusto.es
+    generated_timestamp: 1698653796
