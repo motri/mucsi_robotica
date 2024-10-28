@@ -20,13 +20,22 @@ class Nodo_logica:
         # cartas = 2 dimensional array ['carta', PosicionCarta (x,y)]
         self.cartas = cartas
 
-    def game_1(self, reversed_bool=False) -> None:
+    def updateCartas(self, cartas) -> None:
+        self.cartas = cartas
+
+    def ordenarCartas(self, reversed_bool=False) -> List:
         valores = {'A': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13}
    
         # Ordenar cartas en función de su valor en el diccionario
         cartas_ordenadas = sorted(self.cartas, key=lambda carta: valores[carta], reverse=reversed_bool)
         return cartas_ordenadas
+    
+    def jugarPoker(self) -> List:
+        return None
+    
+    def jugarBlackjack(self) -> List:
+        return None
 
 cartas = ['A', 'K', '10', 'Q']
 logica = Nodo_logica(cartas)
-print(logica.game_1())
+print(logica.ordenarCartas())
