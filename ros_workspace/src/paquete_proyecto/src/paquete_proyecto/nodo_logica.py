@@ -19,6 +19,7 @@ class Nodo_logica:
     def __init__(self, cartas) -> None:
         # cartas = 2 dimensional array ['carta', PosicionCarta (x,y)]
         self.cartas = cartas
+        self.parejas = parejas
 
     def updateCartas(self, cartas) -> None:
         self.cartas = cartas
@@ -31,7 +32,33 @@ class Nodo_logica:
         return cartas_ordenadas
     
     def jugarPoker(self) -> List:
-        return None
+        # Definimos los valores de las cartas
+        valores = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
+                'J': 11, 'Q': 12, 'K': 13, 'A': 14}
+
+        # Función auxiliar para obtener el valor y tipo de cada pareja
+        def evaluar_pareja(self.pareja):
+            carta1, carta2 = self.pareja
+            if carta1 == carta2:  # Pareja verdadera
+                return (carta1*10 + carta2*10)
+            else:  # Combinación de cartas diferentes
+                return (carta1 + carta2)
+
+        # Evaluamos las parejas
+        valor_pareja1 = evaluar_pareja(pareja1)
+        valor_pareja2 = evaluar_pareja(pareja2)
+        valor_pareja3 = evaluar_pareja(pareja3)
+
+        # Comparar las evaluaciones y devolver la mejor pareja
+        mejor = max(valor_pareja1, valor_pareja2, valor_pareja3)
+
+        # Devolver la pareja correspondiente al valor máximo
+        if mejor == valor_pareja1:
+            return pareja1
+        elif mejor == valor_pareja2:
+            return pareja2
+        else:
+            return pareja3
     
     def jugarBlackjack(self) -> List:
         return None
