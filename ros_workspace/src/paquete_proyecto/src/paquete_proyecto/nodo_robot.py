@@ -68,6 +68,12 @@ if __name__ == '__main__':
     # Creamos el control y suscribimos el nodo al topic de /consignas
     control = Nodo_robot()
 
+    # Nos creamos un topic para decir si nos movemos o no
+    publisher = rospy.Publisher("/movement", Int16, queue_size=10)
+
+
+    ## Hay que hacer una función que mueva el robot a una posicion la que sea y publique en el topic /movements un 1 al mover y un 0 al llegar
+
     control.add_floor()
 
     caja_pose = Pose()
