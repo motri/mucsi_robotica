@@ -15,32 +15,43 @@ import yaml
 captura_datos = False
 data_list = []
 
+rospy.init_node('joint_state_listener', anonymous=True)
+
 def cb_movements(data: Int16) -> None:
     if data.data == 1:
         captura_datos = True
     else:
         captura_datos = False
 
-def cb_data_capture(data: List) -> None: # Este tipo de dato esta mal pero bueno
+def cb_data_capture(msg) -> None: # Este tipo de dato esta mal pero bueno
     if captura_datos == True:
-        data_list.append(data.data)
-    
-    if len(data_list) > 0:
-        # Queda aqui hacer todo lo de subir a InfluxDB 
-
-        data_list = []
-
-
-
+        rospy.loginfo("Received joint state:")
+        rospy.loginfo(f"Names: {msg.name}")
+        rospy.loginfo(f"Positions: {msg.position}")
+        rospy.loginfo(f"Velocities: {msg.velocity}")
+        rospy.loginfo(f"Efforts: {msg.effort}")
+        data_list.append(msg.position)    
+    else:
+        if len(data_list) > 0:
+            # Queda aqui hacer todo lo de subir a InfluxDB 
+            data_list = []
 
 ## Logica a seguir ##
 
 # Este nodo va a estar suscrito a 2 topics --> 1 topic es para decir si tiene que guardar datos si o no
 #                                           --> Otro topic es el que te devuelve la posicion, velodidad y esfuerzo del robot /joint_states
 
+rospy.sleep(.5)
+sleep_compensado = rospy.Rate(10) # Esto nos permite publicar 10 veces por segundo
 
 if __name__ == '__main__':
-    rospy.Subscriber("/movimientos", Int16, cb_movements)
-    rospy.Subscriber("/joint_states", Int16, cb_data_capture)
+    #rospy.Subscriber("/movimientos", Int16, cb_movements) 
+    rospy.Subscriber("/joint_states", JointState, cb_data_capture)
+
+    while True:
+        print(data_list)
+        sleep_compensado.sleep()
+
+        #print(data_list)
 
 
