@@ -13,45 +13,48 @@ from sensor_msgs.msg import JointState
 import yaml
 
 captura_datos = False
+aborted = False
 data_list = []
 
 rospy.init_node('joint_state_listener', anonymous=True)
 
 def cb_movements(data: Int16) -> None:
+    global captura_datos, aborted
     if data.data == 1:
         captura_datos = True
+    elif data.data == 2:
+        aborted = True
     else:
         captura_datos = False
 
-def cb_data_capture(msg) -> None: # Este tipo de dato esta mal pero bueno
-    if captura_datos == True:
-        rospy.loginfo("Received joint state:")
-        rospy.loginfo(f"Names: {msg.name}")
-        rospy.loginfo(f"Positions: {msg.position}")
-        rospy.loginfo(f"Velocities: {msg.velocity}")
-        rospy.loginfo(f"Efforts: {msg.effort}")
-        data_list.append(msg.position)    
+def cb_data_capture(msg: JointState) -> None:
+    global captura_datos, aborted, data_list
+    if captura_datos:
+        if not aborted:
+            current_joint_state = {
+                "name": msg.name,
+                "position": list(msg.position),
+                "velocity": list(msg.velocity),
+                "effort": list(msg.effort)
+            }
+            data_list.append(current_joint_state)
     else:
         if len(data_list) > 0:
-            # Queda aqui hacer todo lo de subir a InfluxDB 
+            # Here, process or upload the data to InfluxDB
+            print(data_list)
             data_list = []
 
-## Logica a seguir ##
+## Logic to follow ##
+# This node subscribes to two topics:
+# - One topic tells the node whether to start or stop capturing data.
+# - The other topic provides the position, velocity, and effort of the robot joints (/joint_states).
 
-# Este nodo va a estar suscrito a 2 topics --> 1 topic es para decir si tiene que guardar datos si o no
-#                                           --> Otro topic es el que te devuelve la posicion, velodidad y esfuerzo del robot /joint_states
-
-rospy.sleep(.5)
-sleep_compensado = rospy.Rate(10) # Esto nos permite publicar 10 veces por segundo
+rospy.sleep(0.5)
+sleep_compensado = rospy.Rate(10)  # This allows publishing at 10 Hz
 
 if __name__ == '__main__':
-    #rospy.Subscriber("/movimientos", Int16, cb_movements) 
+    rospy.Subscriber("/movimientos", Int16, cb_movements)
     rospy.Subscriber("/joint_states", JointState, cb_data_capture)
 
-    while True:
-        print(data_list)
+    while not rospy.is_shutdown():
         sleep_compensado.sleep()
-
-        #print(data_list)
-
-
