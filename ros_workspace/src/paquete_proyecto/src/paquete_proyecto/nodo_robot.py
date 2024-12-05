@@ -72,8 +72,6 @@ if __name__ == '__main__':
 
     # Aqui habria que crear una funcion para mover el roboto y que publique un 1 en el topic de movmienos y un 0 cuando acabae de moverse
 
-    publisher = rospy.Publisher("/movimientos", Int16, queue_size=10)
-
     joint_goal = control.get_motor_angles()
     joint_goal[0] =  tau / 4 + tau / 8              # Giro del motor inferior (Plano X,Y)
     joint_goal[1] = -tau / 4                        # Giro del motor inferior (Plano Z)
@@ -81,16 +79,18 @@ if __name__ == '__main__':
     joint_goal[3] = -tau / 4                        # Giro del motor superior
     joint_goal[4] = 0                               # Giro la ubicacion de la pinza
     joint_goal[5] = 0                               # Giro de la propia pinza
-    
+
+    rospy.sleep(1.0)
 
     publisher.publish(1)
-    ret = control.move_motors(joint_goal, True)
-    if ret:
+    if control.move_motors(joint_goal, True):
         publisher.publish(0)
         print("Movido el robot aplicando rotación a los motores")
     else:
         publisher.publish(2)
         print("No se pudo completar el movimiento")
+
+    control.reset_pos()
 
     control.add_floor()
 
