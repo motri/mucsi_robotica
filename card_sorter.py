@@ -16,13 +16,7 @@ from control_msgs.msg import GripperCommandAction, GripperCommandGoal, GripperCo
 from actionlib import SimpleActionClient
 from time import sleep
 
-joint_configuration = [[0.5408084988594055, -1.969069620172018, -0.690409779548645, -2.046171327630514, 1.5728977918624878, 1.482495903968811],
-             [0.15190760791301727, -2.0658303699889125, -0.5416991710662842, -2.0914517841734828, 1.5743842124938965, 1.090315580368042],
-             [-0.22816354433168584, -2.147924085656637, -0.3972216546535492, -2.1656438312926234, 1.5727119445800781, 0.7838241457939148],
-             [-0.614532772694723, -1.8291450939574183, -0.8850789070129395, -1.9965487919249476, 1.573143720626831, 0.3192458152770996],
-             [0.06626737117767334, -1.4222855877927323, -1.3193367719650269, -1.9700690708556117, 1.573316216468811, 0.988867998123169]]
-    
-base_configuration = [-1.8235538641559046, -1.505070039337017, -0.7248993515968323, -2.4801069698729457, 1.5716415643692017, 0.05282888934016228]
+
 
 # Clase para controlar las funciones del robot
 class ControlRobot:
@@ -38,6 +32,14 @@ class ControlRobot:
         self.gripper_action_client = SimpleActionClient("rg2_action_server", GripperCommandAction)
         self.add_floor()
 
+        self.joint_configuration = [[0.5408084988594055, -1.969069620172018, -0.690409779548645, -2.046171327630514, 1.5728977918624878, 1.482495903968811],
+             [0.15190760791301727, -2.0658303699889125, -0.5416991710662842, -2.0914517841734828, 1.5743842124938965, 1.090315580368042],
+             [-0.22816354433168584, -2.147924085656637, -0.3972216546535492, -2.1656438312926234, 1.5727119445800781, 0.7838241457939148],
+             [-0.614532772694723, -1.8291450939574183, -0.8850789070129395, -1.9965487919249476, 1.573143720626831, 0.3192458152770996],
+             [0.06626737117767334, -1.4222855877927323, -1.3193367719650269, -1.9700690708556117, 1.573316216468811, 0.988867998123169],
+             [-0.47379905382265264, -1.639226575891012, -1.761652946472168, -1.3131235402873536, 4.715549945831299, -6.207685377691881]]
+    
+        self.base_configuration = [-1.8235538641559046, -1.505070039337017, -0.7248993515968323, -2.4801069698729457, 1.5716415643692017, 0.05282888934016228]
 
     # Devolvemos una lista de los angulos de los motores
     def get_motor_angles(self) -> list:
@@ -117,7 +119,6 @@ class ControlRobot:
 
     
     def bajar_pinza(self):
-        control = ControlRobot()
         pose_actual = control.pose_actual()
         pose_actual.position.z -= 0.07 # Ajustar a la medida real
         control.move_trajectory([pose_actual])
@@ -125,72 +126,79 @@ class ControlRobot:
 
     
     def subir_pinza(self):
-        control = ControlRobot()
         print("subiendo pinza")
         pose_actual = control.pose_actual()
         pose_actual.position.z += 0.07   # Ajustar a la medida real
         control.move_trajectory([pose_actual])
         sleep(2)
 
-    def mover_carta(index1, index2):
-        control = ControlRobot()
-        control.moverConfig(joint_configuration[index1])
+    def mover_carta(self, index1, index2):
+        control.moverConfig(self.joint_configuration[index1])
         control.abrir_pinza()
         control.bajar_pinza()
         control.cerrar_pinza()
         control.subir_pinza()
 
-        control.moverConfig(joint_configuration[index2])
+        control.moverConfig(self.joint_configuration[index2])
         control.bajar_pinza()
         control.abrir_pinza()
         control.subir_pinza()
     
-    def volver_base():
-        control = ControlRobot()
-        control.moverConfig(base_configuration)
+    def volver_base(self):
+        control.moverConfig(self.base_configuration)
+
+    def finisher(self):
+        control.moverConfig(self.joint_configuration[-1])
     
-    def sort_cards(current_order, desired_order):      
-        control = ControlRobot()  
+    def sort_cards(self, current_order, desired_order):   
+        print("D")   
+        print("Current order:")
+        print(current_oder)
+        print("Desired order:")
+        print(desired_order)
+
         for current_index in range(len(current_order)):
-            if current_order[current_index] == desired_order[current_index]:
-                continue  # Pasamos al siguiente índice si ya está en orden
-
-            # Guardar valores actuales y deseados
-            current_value = current_order[current_index]
-            expected_value = desired_order[current_index]
-
-            # Encontrar el índice del valor esperado en el arreglo actual
-            expected_value_index = current_order.index(expected_value)
-
-            # Paso 1: Publicar current_index -> 4
-  
-            control.mover_carta(current_index, 4)
             
-            control.volver_base()
-            # Paso 2: Publicar expected_value_index -> current_index
-            control.mover_carta(expected_value_index, current_index)
+            if current_order[current_index] != desired_order[current_index]:
 
-            control.volver_base()
+                # Guardar valores actuales y deseados
+                current_value = current_order[current_index]
+                expected_value = desired_order[current_index]
 
-            # Paso 3: Publicar 4 -> expected_value_index
-            control.mover_carta(4, expected_value_index)
-            
-            control.volver_base()
+                # Encontrar el índice del valor esperado en el arreglo actual
+                expected_value_index = current_order.index(expected_value)
 
-            # Actualizar el current_order
-            current_order[expected_value_index] = current_value
-    
+                # Paso 1: Publicar current_index -> 4
+                print("A")
+
+                control.mover_carta(current_index, 4)
+                print("B")
+
+                # Paso 2: Publicar expected_value_index -> current_index
+                control.mover_carta(expected_value_index, current_index)
+                print("C")
+
+
+                # Paso 3: Publicar 4 -> expected_value_index
+                control.mover_carta(4, expected_value_index)
+                print("D")
+
+
+                # Actualizar el current_order
+                current_order[expected_value_index] = current_value
+                print("E")
+
+        control.volver_base()
 
 if __name__ == '__main__':
     try:
-        current_oder = [2,3,1,4]
-        sorted = current_oder.sort()
+        current_oder = [6, 8, 2, 5]
+        sorted_order = []
+        sorted_order = sorted(current_oder)
+        print("Sorted")
         control = ControlRobot()
-        control.sort_cards(current_oder, sorted)
+        control.volver_base()
+        control.sort_cards(current_oder, sorted_order)
+        control.finisher()
     except:
         pass
-
-
-
-
-
