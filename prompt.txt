@@ -1,0 +1,21 @@
+
+
+Imaginemos que recibimos una lista con cuatro valores y otra con esos cuatro valores ordenadoes en valor ascendente. un brazo robotico tendra que mover cartas con esos valores del orden primero a la ordenada, esas listas son dos arrays de 4 ints. Qureremos codearlo de la siguient manera: recibimos un array de int conocido como current_order y otro como desired_order. En un for loop, empezamos con el primer index de 0 a 3 que guardamos en current_index. Usando ese index comparamos el valor en ese index de current_order  y expected_order. Si son iguales avanzamos al siguiente index, si no:
+
+guardamos el valor del current_ array en la variable current_value
+
+guardamos el valor del expected_array en la varaible expected_value
+
+evaluamos la posicion (index) del expected_value en el array current_order y lo guardamos expected_value_index.
+
+publicamos un mensaje de rospy al topic, /movecard que contenga el current_index y 4
+
+una vez que la accion anterior a sido confirmada, publicamos a/movecard con expected_value_index y current_index
+
+una vez que la accion anterior a sido confirmada publicamos /movecard 4 y expected_value_index
+
+una vez que la accion anterior a sido confirmada actualizamos el current_order y insertamos current_value en el index expected_value_index
+damos por finalizado este ciclo y movemos al siguiente index y repetimos.
+
+Produce el codigo ,eres un experto de python y rospy
+
