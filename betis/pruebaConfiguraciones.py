@@ -132,7 +132,7 @@ class ControlRobot:
         control.move_trajectory([pose_actual])
         sleep(2)
 
-    def cargar_configuraciones(self, archivo: str = "/home/laboratorio/ros_workspace/src/pruebas/configuraciones.yaml") -> dict:
+    def cargar_configuraciones(self, archivo: str = "/home/laboratorio/ros_workspace/src/pruebas/configuraciones_sinobj.yaml") -> dict:
         try:
             with open(archivo, 'r') as file:
                 return yaml.safe_load(file)["configuraciones"]
