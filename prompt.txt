@@ -8,11 +8,11 @@ guardamos el valor del expected_array en la varaible expected_value
 
 evaluamos la posicion (index) del expected_value en el array current_order y lo guardamos expected_value_index.
 
-publicamos un mensaje de rospy al topic, /movecard que contenga el current_index y 4
+publicamos un mensaje de rospy al topic, /mueve_carta que contenga el current_index y 4
 
-una vez que la accion anterior a sido confirmada, publicamos a/movecard con expected_value_index y current_index
+una vez que la accion anterior a sido confirmada, publicamos a/mueve_carta con expected_value_index y current_index
 
-una vez que la accion anterior a sido confirmada publicamos /movecard 4 y expected_value_index
+una vez que la accion anterior a sido confirmada publicamos /mueve_carta 4 y expected_value_index
 
 una vez que la accion anterior a sido confirmada actualizamos el current_order y insertamos current_value en el index expected_value_index
 damos por finalizado este ciclo y movemos al siguiente index y repetimos.

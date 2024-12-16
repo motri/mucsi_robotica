@@ -22,7 +22,7 @@ class ControlRobot:
         self.group_name = "robot"
         self.move_group = MoveGroupCommander(self.group_name)
         self.gripper_action_client = SimpleActionClient("rg2_action_server", GripperCommandAction)
-        rospy.Subscriber("/movimientoBrazo", Int16, self.consumir_movimiento)
+        rospy.Subscriber("/movimiento_brazo", Int16, self.consumir_movimiento)
 
         # Load configurations from YAML
         with open(config_file, "r") as file:
@@ -31,8 +31,8 @@ class ControlRobot:
         self.joint_configuration = config["joint_configurations"]["positions"]
         self.base_configuration = config["joint_configurations"]["base_position"]
 
-        rospy.Subscriber("/moveCard", Int16MultiArray, self.mover_carta_callback)
-        self.pub_success = rospy.Publisher("/moveStatus", Int16, queue_size=10)
+        rospy.Subscriber("/mueve_carta", Int16MultiArray, self.mover_carta_callback)
+        self.pub_success = rospy.Publisher("/estado_movimiento", Int16, queue_size=10)
 
         self.add_floor()
 

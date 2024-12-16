@@ -5,7 +5,7 @@ from typing import List
 class CardSorterNode:
     def __init__(self):
         rospy.init_node("card_sorter", anonymous=True)
-        self.pub = rospy.Publisher("/moveCard", Int16MultiArray, queue_size=10)
+        self.pub = rospy.Publisher("/mueve_carta", Int16MultiArray, queue_size=10)
         rospy.Subscriber("/tablero_actual", Int16MultiArray, self.current_order_callback)
         rospy.Subscriber("/ordenes", Int16, self.iniciar_juego)
         self.pub_evalua_tablero = rospy.Publisher("/evalua_tablero", Int16, queue_size=10)
@@ -13,7 +13,7 @@ class CardSorterNode:
         self.juego_actual = 0
 
         # Subscriber to confirmation topic
-        rospy.Subscriber("/moveStatus", Int16, self.confirmation_callback)
+        rospy.Subscriber("/estado_movimiento", Int16, self.confirmation_callback)
 
     def iniciar_juego(self, msg):
         if msg.data == 1:
@@ -23,15 +23,15 @@ class CardSorterNode:
 
     def confirmation_callback(self, status):
         """
-        Callback to listen for confirmation on /moveStatus.
+        Callback to listen for confirmation on /estado_movimiento.
         """
         if status.data == 1:
-            rospy.loginfo("Acción confirmada en /moveStatus.")
+            rospy.loginfo("Acción confirmada en /estado_movimiento.")
             self.confirmation_received = True
 
     def publish_and_wait_for_confirmation(self, message):
         """
-        Publica un mensaje en el topic /movecard y espera confirmación en /moveStatus.
+        Publica un mensaje en el topic /mueve_carta y espera confirmación en /estado_movimiento.
         """
         self.confirmation_received = False
 
@@ -45,7 +45,7 @@ class CardSorterNode:
             rate.sleep()
 
         if not self.confirmation_received:
-            rospy.logwarn("No se recibió confirmación en /moveStatus antes de timeout.")
+            rospy.logwarn("No se recibió confirmación en /estado_movimiento antes de timeout.")
 
     def sort_cards(self, current_order: List[int], desired_order: List[int]):
         """

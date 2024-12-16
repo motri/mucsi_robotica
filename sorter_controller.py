@@ -43,9 +43,9 @@ class ControlRobot:
 
         self.move_successful = False
 
-        rospy.Subscriber("/moveCard", Int32MultiArray, self.mover_carta)
+        rospy.Subscriber("/mueve_carta", Int32MultiArray, self.mover_carta)
 
-        self.pub_success = rospy.Publisher("/moveStatus", int, queue_size=10)
+        self.pub_success = rospy.Publisher("/estado_movimiento", int, queue_size=10)
 
     # Devolvemos una lista de los angulos de los motores
     def get_motor_angles(self) -> list:

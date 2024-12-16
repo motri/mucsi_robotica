@@ -13,7 +13,7 @@ from time import sleep
 
 class ControlRobot:
 
-    def __init__(self, config_file="/home/laboratorio/ros_workspace/src/final_package/positions.yaml") -> None:
+    def __init__(self, config_file="/home/laboratorio/ros_workspace/src/proyecto_cartas/src/proeycto_cartas/positions.yaml") -> None:
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node("control_robot", anonymous=True)
 
@@ -22,6 +22,7 @@ class ControlRobot:
         self.group_name = "robot"
         self.move_group = MoveGroupCommander(self.group_name)
         self.gripper_action_client = SimpleActionClient("rg2_action_server", GripperCommandAction)
+        rospy.Subscriber("/movimiento_brazo", Int16, self.consumir_movimiento)
 
         # Load configurations from YAML
         with open(config_file, "r") as file:
@@ -84,11 +85,36 @@ class ControlRobot:
         self.mover_pinza(60.0, 5.0)  # Cerrar a 6cm con 5N de fuerza
         sleep(4)
 
-    
+    def cerrar_pinza_entera(self):
+        print("Cerrando la pinza...")
+        self.mover_pinza(0.0, 7.0)  # Cerrar a 6cm con 5N de fuerza
+        sleep(4)
+
     def bajar_pinza(self):
         pose_actual = self.pose_actual()
         pose_actual.position.z -= 0.07 # Ajustar a la medida real
         self.move_trajectory([pose_actual])
+        sleep(2)
+
+    def consumir_movimiento(self, msg):
+        if msg.data == 0:
+            self.pedir_carta
+        else:
+            self.move_trajectory([self.joint_configuration[-1]])
+
+
+    def pedir_carta(self):
+        pose_actual = self.pose_actual()
+        self.cerrar_pinza_entera()
+        pose_actual.position.z -= 0.04 # Bajar 1
+        self.move_trajectory([pose_actual])
+        pose_actual.position.z += 0.04 # Subir 1
+        self.move_trajectory([pose_actual])
+        pose_actual.position.z -= 0.04 # Bajar 2
+        self.move_trajectory([pose_actual])
+        pose_actual.position.z += 0.04 # Subir 2
+        self.move_trajectory([pose_actual])
+        self.abrir_pinza()
         sleep(2)
 
     def pose_actual(self) -> Pose:

@@ -30,8 +30,8 @@ class ControlRobot:
         self.joint_configuration = config["joint_configurations"]["positions"]
         self.base_configuration = config["joint_configurations"]["base_position"]
 
-        rospy.Subscriber("/moveCard", Int32MultiArray, self.mover_carta_callback)
-        self.pub_success = rospy.Publisher("/moveStatus", Int32MultiArray, queue_size=10)
+        rospy.Subscriber("/mueve_carta", Int32MultiArray, self.mover_carta_callback)
+        self.pub_success = rospy.Publisher("/estado_movimiento", Int32MultiArray, queue_size=10)
 
         self.add_floor()
 

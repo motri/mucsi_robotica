@@ -6,11 +6,13 @@ class CardSorterNode:
     def __init__(self):
         rospy.init_node("card_sorter", anonymous=True)
         self.pub = rospy.Publisher("/mueve_carta", Int16MultiArray, queue_size=10)
-        rospy.Subscriber("/tableroActual", Int16MultiArray, self.current_order_callback)
-        rospy.Subscriber("/ordenes", int, self.iniciar_juego)
-        self.pub_evalua_tablero = rospy.Publisher("/evaluaTablero", Int16, queue_size=10)
+        self.pub_movimiento = rospy.Publisher("/movimiento_brazo", Int16, queue_size=10)
+        rospy.Subscriber("/tablero_actual", Int16MultiArray, self.current_order_callback)
+        rospy.Subscriber("/ordenes", Int16, self.iniciar_juego)
+        self.pub_evalua_tablero = rospy.Publisher("/evalua_tablero", Int16, queue_size=10)
         self.confirmation_received = False
         self.juego_actual = 0
+        self.total = 0
 
         # Subscriber to confirmation topic
         rospy.Subscriber("/estado_movimiento", Int16, self.confirmation_callback)
@@ -18,7 +20,10 @@ class CardSorterNode:
     def iniciar_juego(self, msg):
         if msg.data == 1:
             self.juego_actual = 1
-            self.pub_evalua_tablero(msg.data)
+            self.pub_evalua_tablero.publish(msg)
+        elif msg.data == 2:
+            self.juego_actual = 2
+            self.pub_evalua_tablero.publish(msg)
         
 
     def confirmation_callback(self, status):
@@ -78,6 +83,23 @@ class CardSorterNode:
             # Actualizar el current_order
             current_order[expected_value_index] = current_value
 
+    def blackjack(self, tablero):
+        """
+        Pondra la carta en la siguiente configuración libre siempre que la suma sea menor o igual a 21.
+        """
+        self.pub_evalua_tablero.publish(1)
+        carta = tablero[-1]
+        if(self.total + carta <= 21):
+            rospy.loginfo(f"No hemos superado 21")
+            self.total += carta
+            message = [4, len(tablero-1)]
+            self.publish_and_wait_for_confirmation(message)
+            rospy.loginfo(f"Pidiendo otra carta.")
+            self.pub_movimiento.publish(0)
+        else:
+            rospy.loginfo(f"Superado 21, movimiento final.")
+            self.pub_movimiento.publish(1)
+
     def current_order_callback(self, msg):
         """
         Callback para recibir el orden actual desde un topic.
@@ -87,6 +109,11 @@ class CardSorterNode:
             rospy.loginfo(f"Orden actual recibido: {current_order}")
             desired_order = sorted(current_order)
             self.sort_cards(current_order, desired_order)
+        elif self.juego_actual == 2:
+            tablero = list(msg.data)
+            rospy.loginfo(f"Ejevutando blackjack.")
+            self.blackjack(tablero)
+            
 
     def run(self):
         """

@@ -3,7 +3,7 @@ def sort_cards(current_order, desired_order):
     Ordena las cartas en el robot de acuerdo a las reglas descritas.
     """
     rospy.init_node('card_sorter', anonymous=True)
-    pub = rospy.Publisher('/movecard', Int32MultiArray, queue_size=10)
+    pub = rospy.Publisher('/mueve_carta', Int32MultiArray, queue_size=10)
     
     for current_index in range(len(current_order)):
         if current_order[current_index] == desired_order[current_index]:
@@ -19,15 +19,15 @@ def sort_cards(current_order, desired_order):
         # Paso 1: Publicar current_index -> 4
         message = Int32MultiArray()
         message.data = [current_index, 4]
-        publish_and_confirm(pub, '/movecard', message)
+        publish_and_confirm(pub, '/mueve_carta', message)
 
         # Paso 2: Publicar expected_value_index -> current_index
         message.data = [expected_value_index, current_index]
-        publish_and_confirm(pub, '/movecard', message)
+        publish_and_confirm(pub, '/mueve_carta', message)
 
         # Paso 3: Publicar 4 -> expected_value_index
         message.data = [4, expected_value_index]
-        publish_and_confirm(pub, '/movecard', message)
+        publish_and_confirm(pub, '/mueve_carta', message)
 
         # Actualizar el current_order
         current_order[expected_value_index] = current_value
