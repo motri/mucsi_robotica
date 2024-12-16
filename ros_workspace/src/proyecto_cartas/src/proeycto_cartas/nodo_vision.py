@@ -17,6 +17,13 @@ class NodoCamara:
         self.pub = rospy.Publisher('/cartas_detectadas', Int16MultiArray, queue_size=10)
         self.cv_image = None
 
+        # Lanzar el nodo usb_cam automáticamente
+        try:
+            self.usb_cam_process = subprocess.Popen(["rosrun", "usb_cam", "usb_cam_node"])
+            rospy.loginfo("Nodo usb_cam lanzado exitosamente.")
+        except Exception as e:
+            rospy.logerr(f"Error al lanzar usb_cam_node: {e}")
+            
         # Obtener la ruta al archivo de calibración
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.calibration_data_path = os.path.join(base_dir, "static/calibration_data.npz")
