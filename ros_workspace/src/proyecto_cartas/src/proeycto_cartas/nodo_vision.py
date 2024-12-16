@@ -6,6 +6,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import detector_numero as dn
 import os
+import subprocess
 from copy import deepcopy
 
 bridge = CvBridge()
