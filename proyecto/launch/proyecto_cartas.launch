@@ -1,0 +1,19 @@
+<launch> 
+    <arg name="view_raw" default="false"/>
+    <include file="$(find launcher_robots_lab_robotica)/launch/robot_204.launch"/>
+    <node pkg="proyecto" type="control_robot_multijuego.py" name="control_robot" output="screen" />
+    <node pkg="proyecto" type="nodo_vision.py" name="nodo_vision" output="screen" />
+    <node pkg="proyecto" type="nodo_ordenar_multijuego.py" name="nodo_ordenar" output="screen" />
+    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+        <param name="video_device" value="/dev/video0" />
+        <param name="image_width" value="640" />
+        <param name="image_height" value="480" />
+        <param name="camera_frame_id" value="usb_cam" />
+        <param name="io_method" value="mmap"/>
+    </node>
+
+    <node name="image_view" pkg="image_view" type="image_view" if="$(arg view_raw)" respawn="false" output="screen">
+        <remap from="image" to="/usb_cam/image_raw"/>
+        <param name="autosize" value="true" />
+    </node>
+</launch>
