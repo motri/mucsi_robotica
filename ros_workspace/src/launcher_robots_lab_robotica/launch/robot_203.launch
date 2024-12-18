@@ -25,7 +25,6 @@
   <group ns="robot">
     <include file="$(find launcher_robots_lab_robotica)/launch/base_launch.launch" pass_all_args="true"/>        
   </group>
-  <include file="$(find launcher_robots_lab_robotica)/launch/proyecto_cartas.launch" pass_all_args="true"/> 
   <include file="$(find ur3e_203_moveit_config)/launch/ur3e_203_moveit.launch"/>
   <include file="$(find rg2_driver)/launch/rg2_driver.launch">
     <arg name="robot_ip" value="$(arg robot_ip)"/>
