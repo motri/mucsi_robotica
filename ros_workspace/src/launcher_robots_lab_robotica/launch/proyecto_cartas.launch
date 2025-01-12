@@ -1,5 +1,0 @@
-<launch>    
-    <node pkg="proyecto_cartas" type="control_robot_multijuego.py" name="control_robot" output="screen" />
-    <node pkg="proyecto_cartas" type="nodo_vision.py" name="nodo_vision" output="screen" />
-    <node pkg="proyecto_cartas" type="nodo_ordenar_multijuego.py" name="nodo_ordenar" output="screen" />
-</launch>

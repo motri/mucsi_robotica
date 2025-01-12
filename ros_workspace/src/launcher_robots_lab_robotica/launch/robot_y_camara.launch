@@ -1,0 +1,13 @@
+<launch>
+    <group ns="cam1">
+        <include file="$(find launcher_robots_lab_robotica)/launch/launch_cam.launch">
+            <arg name="cam_path" value="/dev/video1"/>        
+        </include>
+    </group>
+    <group ns="cam2">
+        <include file="$(find launcher_robots_lab_robotica)/launch/launch_cam.launch">
+            <arg name="cam_path" value="/dev/video5"/>
+        </include>
+    </group>
+    <include file="$(find launcher_robots_lab_robotica)/launch/robot_205.launch"/>
+</launch>

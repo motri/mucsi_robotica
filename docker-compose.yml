@@ -44,7 +44,7 @@ services:
     tmpfs:
       - /dev/shm:rw
     environment:
-      - DISPLAY=$DISPLAY
+      - DISPLAY=${DISPLAY:-0}
       - LD_LIBRARY_PATH=/usr/local/nvidia/lib64
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
@@ -73,4 +73,4 @@ services:
     tmpfs:
       - /dev/shm:rw
     environment:
-      - DISPLAY=$DISPLAY
+      - DISPLAY=${DISPLAY:-0}

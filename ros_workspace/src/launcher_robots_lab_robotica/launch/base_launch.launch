@@ -57,6 +57,4 @@
     <arg name="ur_hardware_interface_node_required" value="$(arg ur_hardware_interface_node_required)"/>
     <arg name="use_spline_interpolation" value="$(arg use_spline_interpolation)"/>
   </include>
-  <include file="$(find launcher_robots_lab_robotica)/launch/proyecto_cartas.launch" pass_all_args="true"/> 
-
 </launch>

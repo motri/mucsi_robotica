@@ -119,6 +119,7 @@ class CardSorterNode:
             self.pub_movimiento.publish(1)
 
     def current_order_callback(self, msg):
+        
         """
         Callback para recibir el orden actual desde un topic.
         """
@@ -131,10 +132,7 @@ class CardSorterNode:
 
         elif self.juego_actual == 2:
             tablero = list(msg.data)
-
             print(len(tablero))
-            
-
             # Tenemos que mirar que en length sea inferior a 5 
             if (len(self.tablero_blackjack) + 1) < 5:
                 self.tablero_blackjack.insert(0, tablero[0])

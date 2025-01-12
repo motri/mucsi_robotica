@@ -149,6 +149,8 @@ RUN chmod 755 /etc/entrypoint.sh
 COPY supervisord.conf /etc/supervisord.conf
 RUN chmod 755 /etc/supervisord.conf
 
+RUN sed -i "s/\r$//" /etc/entrypoint.sh
+
 RUN echo "source /opt/ros/noetic/setup.bash" >> /home/laboratorio/.bashrc
 
 USER laboratorio

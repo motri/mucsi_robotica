@@ -40,6 +40,6 @@ class GripperJointStates():
             self.pub_rate.sleep()
 
 if __name__ == "__main__":
-    gripper_joint_state_publisher = GripperJointStates('10.172.21.203')
     robot_ip = sys.argv[1]
+    gripper_joint_state_publisher = GripperJointStates(robot_ip)
     gripper_joint_state_publisher.start()

@@ -16,12 +16,12 @@ bridge = CvBridge()
 class NodoCamara:
     def __init__(self):
 
-        # Lanzar el nodo usb_cam automáticamente
-        # try:
-        #     self.usb_cam_process = subprocess.Popen(["rosrun", "usb_cam", "usb_cam_node"])
-        #     rospy.loginfo("Nodo usb_cam lanzado exitosamente.")
-        # except Exception as e:
-        #     rospy.logerr(f"Error al lanzar usb_cam_node: {e}")
+        #Lanzar el nodo usb_cam automáticamente
+        try:
+            self.usb_cam_process = subprocess.Popen(["rosrun", "usb_cam", "usb_cam_node"])
+            rospy.loginfo("Nodo usb_cam lanzado exitosamente.")
+        except Exception as e:
+            rospy.logerr(f"Error al lanzar usb_cam_node: {e}")
         
         rospy.init_node('nodo_camara', anonymous=True)
         rospy.Subscriber('/usb_cam/image_raw', Image, self.__cb_image)

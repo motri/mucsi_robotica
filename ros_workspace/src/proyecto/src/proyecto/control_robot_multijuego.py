@@ -26,6 +26,10 @@ class ControlRobot:
         self.gripper_action_client = SimpleActionClient("rg2_action_server", GripperCommandAction)
         rospy.Subscriber("/movimiento_brazo", Int16, self.consumir_movimiento)
 
+        # Configurar factores de escalado de velocidad y aceleración
+        self.move_group.set_max_velocity_scaling_factor(0.9)  # 50% de la velocidad máxima
+        self.move_group.set_max_acceleration_scaling_factor(0.9)  # 50% de la aceleración máxima
+
         # Load configurations from YAML
         with open(config_file, "r") as file:
             config = yaml.safe_load(file)
@@ -74,25 +78,25 @@ class ControlRobot:
     
     def abrir_pinza(self):
         print("Abriendo la pinza...")
-        self.mover_pinza(100.0, 5.0)  # Abrir a 10cm con 5N de fuerza
-        sleep(2)
+        self.mover_pinza(100.0, 40.0)  # Abrir a 10cm con 5N de fuerza
+        sleep(1)
 
 
     def cerrar_pinza(self):
         print("Cerrando la pinza...")
-        self.mover_pinza(60.0, 5.0)  # Cerrar a 6cm con 5N de fuerza
-        sleep(4)
+        self.mover_pinza(60.0, 40.0)  # Cerrar a 6cm con 5N de fuerza
+        sleep(1)
 
     def cerrar_pinza_entera(self):
         print("Cerrando la pinza...")
-        self.mover_pinza(0.0, 7.0)  # Cerrar a 6cm con 5N de fuerza
-        sleep(4)
+        self.mover_pinza(0.0, 40.0)  # Cerrar a 6cm con 5N de fuerza
+        sleep(1)
 
     def bajar_pinza(self):
         pose_actual = self.pose_actual()
         pose_actual.position.z -= 0.07 # Ajustar a la medida real
         self.move_trajectory([pose_actual])
-        sleep(2)
+        sleep(1)
 
     def consumir_movimiento(self, msg):
         if msg.data == 0:
@@ -103,6 +107,9 @@ class ControlRobot:
             self.mover_configuracion("BASE")
             self.mover_configuracion("FINISHER")
             self.cerrar_pinza_entera()
+            sleep(1)
+            self.volver_base()
+            self.abrir_pinza()
         elif msg.data == 3:
             self.abrir_pinza()
             self.bajar_pinza()
@@ -133,7 +140,7 @@ class ControlRobot:
         pose_actual.position.z += 0.04 # Subir 2
         self.move_trajectory([pose_actual])
         self.abrir_pinza()
-        sleep(2)
+        sleep(1)
 
     def pose_actual(self) -> Pose:
         return self.move_group.get_current_pose().pose
